@@ -13,11 +13,13 @@ git checkout name_of_branch (move to branch)
 git push -u origin branch_name (push branch to github)
 git merge name_of_branch (merge name_of_branch to current_branch)
 git branch -D name_of_branch (delete a branch by name)
+git add --all (adds all modified files)
 (Keep track of who changed what)
 
 git config --global user.name "Your name"
 git config --global user.email "you@email.com"
 (Pull request takes your branch and compares it to the master branch, people can see what changes you have made)
+
 
 go to pull request tab
 change drop down tothat branch to compare to main branch

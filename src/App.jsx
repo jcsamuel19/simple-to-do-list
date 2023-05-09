@@ -20,8 +20,26 @@ function App(){
         false},
       ]
     })
+    setNewItem("") // clears out what you have when you add new item
+  }
+
+  /* */
+  function toggleTodo(id,completed){
+    setToDos(currentTodos => {
+      return currentTodos.map(todo => {
+        if(todo.id === id) {
+          return {...todo, completed} //changing state is creating a brand new state object
+        }
+        return todo
+      })
+    })
   }
   
+  function deleteTodo(id){
+    setToDos(currentTodos => {
+      return currentTodos.filter(todo => todo.id != id)
+    })
+  }
   return (
     <>
       <form onSubmit={handleSubmit} className="new-item-form">
@@ -38,14 +56,17 @@ function App(){
       </form>
       <h1 className="header">Todo List</h1>
       <ul className="list">
-        {toDos.map(toDo => {
-          return ( // each todo must have its own ID
-            <li key={todo.id}> 
+        {toDos.length === 0 && "No Items"} {/* Short cirrcuting -> when ever left side is true run right side*/}
+        {toDos.map(todo => {
+          return ( 
+            <li key={todo.id}>
+              {/*     ^each todo must have its own ID in order to keep track of the different items*/}
               <label>
-                <input type="checkbox" checked={toDo.completed}/>
-                {toDo.title}
+                <input type="checkbox" checked={todo.completed}
+                onChange={e => toggleTodo(todo.id, e.target.checked)}/> {/* checks if item is checked */}
+                {todo.title}
               </label>
-              <button className="btn btn-danger">Delete</button>
+              <button className="btn btn-danger" onClick={() => deleteTodo(todo.id)}>Delete</button>
             </li>
           )
         })}

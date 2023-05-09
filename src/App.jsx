@@ -1,33 +1,55 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react"
+import "./styles.css"
 
-function App() {
-  const [count, setCount] = useState(0)
+function App(){
+  const [newItem, setNewItem] = useState("")
+  const [toDos, setToDos] = useState([])
 
+  function handleSubmit (e){
+    e.preventDefault() //Prevents page from refreshing
+
+    /* id: -> It generates a unique identifier for the new item using the crypto.randomUUID() function. 
+    crypto.randomUUID() -> provides random UUID (Universally Unique Identifier) generation.
+    title: -> assigns the value of newItem to the title property. 
+    newItem -> represents the title or content of the new todo item being added.
+    completed: -> It sets the completed property to false, indicating that the new todo item is initially not completed. */
+    setToDos((currentTodos) => {
+      return [
+        ...currentTodos, //Spreads elements of the currentTodos array into the new array (creates a copy of existing currentTodos array)
+        {id: crypto.randomUUID(), title: newItem, completed: // adds a new object to the array. It has three properties:
+        false},
+      ]
+    })
+  }
+  
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <form onSubmit={handleSubmit} className="new-item-form">
+        <div className="form-row">
+          <label htmlFor="item">New Item</label> {/* Linking label to input */}
+          <input 
+            value={newItem} 
+            onChange={e => setNewItem(e.target.value)} 
+            type="text" 
+            id="item" 
+          />
+        </div>
+        <button className="btn">Add</button>
+      </form>
+      <h1 className="header">Todo List</h1>
+      <ul className="list">
+        {toDos.map(toDo => {
+          return ( // each todo must have its own ID
+            <li key={todo.id}> 
+              <label>
+                <input type="checkbox" checked={toDo.completed}/>
+                {toDo.title}
+              </label>
+              <button className="btn btn-danger">Delete</button>
+            </li>
+          )
+        })}
+      </ul>
     </>
   )
 }

@@ -22,3 +22,5 @@ git config --global user.email "you@email.com"
 go to pull request tab
 change drop down tothat branch to compare to main branch
 leave description to describe changes
+
+npm run dev (runs program)
